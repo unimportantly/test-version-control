@@ -2,6 +2,7 @@ package fr.semifir.testDemo.employes;
 
 import fr.semifir.testDemo.employes.dtos.EmployeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class EmployeController {
     @PostMapping
     public ResponseEntity<EmployeDTO> save(@RequestBody EmployeDTO employeDTO) {
         EmployeDTO response = this.service.save(employeDTO);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping
