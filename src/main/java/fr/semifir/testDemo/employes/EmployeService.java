@@ -4,14 +4,15 @@ import fr.semifir.testDemo.employes.dtos.EmployeDTO;
 import org.modelmapper.ModelMapper;
 
 import java.security.spec.ECParameterSpec;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
 public class EmployeService {
 
-    EmployeRepository repository;
-    ModelMapper mapper;
+    private EmployeRepository repository;
+    private ModelMapper mapper;
 
     public EmployeService(EmployeRepository repository, ModelMapper mapper) {
         this.repository = repository;
@@ -20,10 +21,14 @@ public class EmployeService {
 
     /**
      * Retourne une liste de collaborateurs
-     * @return List<Employe>
+     * @return List<EmployeDTO>
      */
-    public List<Employe> findAll() {
-        return this.repository.findAll();
+    public List<EmployeDTO> findAll() {
+        List<EmployeDTO> employeDTOList = new ArrayList<>();
+        this.repository.findAll().forEach(employe -> {
+            employeDTOList.add(mapper.map(employe, EmployeDTO.class));
+        });
+        return employeDTOList;
     }
 
     /**
