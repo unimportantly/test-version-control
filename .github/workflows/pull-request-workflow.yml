@@ -45,7 +45,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: app.jar
-      - name: installer QEMU docker # all the files needed to install docker
+      - name: installer QEMU docker # all the files needed to install docker, in 2 steps
         uses: docker/setup-qemu-action@v1
       - name: installer buildX docker
         uses: docker/setup-buildX-action@v1
