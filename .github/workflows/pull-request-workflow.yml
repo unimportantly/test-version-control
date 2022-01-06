@@ -55,8 +55,8 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: build & push l'image docker
-        uses: docker/build-and-push-action@v2
+        uses: docker/build-push-action@v2
         with:
           context: . #here we need the dockerfile, and since we checked out the repo, it's at the root
           push: true
-          tags: unimportantly/testDemo:latest
+          tags: unimportantly/testdemo:latest
