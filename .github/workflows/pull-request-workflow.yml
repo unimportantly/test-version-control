@@ -35,3 +35,28 @@ jobs:
         with:
           name: app.jar
           path: ./target/testDemo-0.0.1-SNAPSHOT.jar
+  build-docker:
+    needs: build-app #here we need the app to be built so that we can grab the .jar
+    runs-on: ubuntu-latest
+    steps:
+      - name: récupération du repo
+        uses: actions/checkout@v2
+      - name: récupération du jar
+        uses: actions/download-artifact@v2
+        with:
+          name: app.jar
+      - name: installer QEMU docker # all the files needed to install docker, in 2 steps
+        uses: docker/setup-qemu-action@v1
+      - name: installer buildX docker
+        uses: docker/setup-buildX-action@v1
+      - name: connexion à docker
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: build & push l'image docker
+        uses: docker/build-push-action@v2
+        with:
+          context: . #here we need the dockerfile, and since we checked out the repo, it's at the root
+          push: true
+          tags: unimportantly/testdemo:latest
