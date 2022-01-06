@@ -1,0 +1,37 @@
+name: Pull Request Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+jobs:
+  test-unitaire:
+    runs-on: ubuntu-latest
+    steps:
+      - name: récupération du repo
+        uses: actions/checkout@v2
+      - name: récupération de java
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 11
+      - name: exécution des tests
+        run: mvn test
+  build-app:
+    needs: test-unitaire
+    runs-on: ubuntu-latest
+    steps:
+      - name: récupération du repo
+        uses: actions/checkout@v2
+      - name: récupération de java
+        uses: actions/setup-java@v2
+        with:
+          distribution: adopt
+          java-version: 11
+      - name: création du jar
+        run: mvn package
+      - name: upload du jar
+        uses: actions/upload-artifact@v2
+        with:
+          name: app.jar
+          path: ./target/testDemo-0.0.1-SNAPSHOT.jar
